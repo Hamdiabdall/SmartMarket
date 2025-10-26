@@ -1,0 +1,237 @@
+\documentclass[12pt,a4paper,landscape]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{colortbl}
+
+\geometry{top=1.5cm, bottom=1.5cm, left=1.5cm, right=1.5cm}
+
+\definecolor{headercolor}{RGB}{41, 128, 185}
+\definecolor{lightblue}{RGB}{174, 214, 241}
+\definecolor{warning}{RGB}{231, 76, 60}
+
+\begin{document}
+
+\section*{MAPPING COMPLET: SmartMarket\_raw.xlsx → Data Warehouse}
+
+\subsection*{FEUILLE 1: TRANSACTIONS (100 lignes × 11 colonnes)}
+
+\begin{longtable}{|c|>{\columncolor{lightblue}}p{3.5cm}|p{2cm}|p{3cm}|p{3.5cm}|p{5cm}|}
+\hline
+\rowcolor{headercolor}
+\textbf{\textcolor{white}{N°}} & 
+\textbf{\textcolor{white}{Colonne Excel}} & 
+\textbf{\textcolor{white}{Type}} & 
+\textbf{\textcolor{white}{Table DW}} & 
+\textbf{\textcolor{white}{Champ DW}} & 
+\textbf{\textcolor{white}{Transformation Requise}} \\
+\hline
+\endfirsthead
+
+\hline
+\rowcolor{headercolor}
+\textbf{\textcolor{white}{N°}} & 
+\textbf{\textcolor{white}{Colonne Excel}} & 
+\textbf{\textcolor{white}{Type}} & 
+\textbf{\textcolor{white}{Table DW}} & 
+\textbf{\textcolor{white}{Champ DW}} & 
+\textbf{\textcolor{white}{Transformation Requise}} \\
+\hline
+\endhead
+
+1 & Transaction\_ID & object & FAIT\_VENTES & ID\_Vente & Nettoyer doublons (95 uniques/100) \\
+\hline
+
+2 & Date & object & DIM\_TEMPS & Date\_Complete & \textcolor{warning}{\textbf{CRITIQUE:}} 99 formats différents → Standardiser ISO \\
+\hline
+
+3 & Client\_ID & object & DIM\_CLIENT & ID\_Client & 42 clients uniques \\
+\hline
+
+4 & Produit\_ID & object & DIM\_PRODUIT & ID\_Produit & 30 produits uniques \\
+\hline
+
+5 & Quantite & int64 & FAIT\_VENTES & Quantite & Vérifier > 0 (min=1, max=9) \\
+\hline
+
+6 & Remise\_\% & float64 & FAIT\_VENTES & Taux\_Remise & \textcolor{warning}{\textbf{CRITIQUE:}} Corriger -10\% et 150\% → [0-100] \\
+\hline
+
+7 & Canal\_Vente & object & DIM\_CANAL & Nom\_Canal & \textcolor{warning}{\textbf{CRITIQUE:}} 'En ligne' vs 'en ligne' → Standardiser \\
+\hline
+
+8 & Mode\_Paiement & object & (optionnel) & - & 4 valeurs: Virement, CB, cheque, Espèce \\
+\hline
+
+9 & Statut\_Livraison & object & FAIT\_VENTES & Indicateur\_Retard & Mapper: Livré→0, En attente→1, Annulé→NULL \\
+\hline
+
+10 & Date\_Livraison & object & FAIT\_VENTES & Delai\_Livraison\_Jours & Calculer: Date\_Livraison - Date \\
+\hline
+
+11 & Revenu\_Total & float64 & FAIT\_VENTES & Revenu\_Reel & \textcolor{warning}{15 valeurs NULL} → Recalculer \\
+\hline
+
+\caption{Mapping Transactions}
+\end{longtable}
+
+\subsection*{FEUILLE 2: SATISFACTION (60 lignes × 4 colonnes)}
+
+\begin{longtable}{|c|>{\columncolor{lightblue}}p{3.5cm}|p{2cm}|p{3cm}|p{3.5cm}|p{5cm}|}
+\hline
+\rowcolor{headercolor}
+\textbf{\textcolor{white}{N°}} & 
+\textbf{\textcolor{white}{Colonne Excel}} & 
+\textbf{\textcolor{white}{Type}} & 
+\textbf{\textcolor{white}{Table DW}} & 
+\textbf{\textcolor{white}{Champ DW}} & 
+\textbf{\textcolor{white}{Transformation Requise}} \\
+\hline
+
+1 & Client\_ID & object & DIM\_CLIENT & ID\_Client & Jointure avec Transactions (39 clients) \\
+\hline
+
+2 & Date\_Enquete & object & DIM\_TEMPS & Date\_Complete & Standardiser format date \\
+\hline
+
+3 & Score & object & FAIT\_VENTES & Note\_Satisfaction & \textcolor{warning}{\textbf{CRITIQUE:}} 'Bon'→4, 'Très satisfait'→5, Numérique→OK \\
+\hline
+
+4 & Commentaire & object & - & - & Analyse qualitative (optionnel) \\
+\hline
+
+\caption{Mapping Satisfaction}
+\end{longtable}
+
+\subsection*{FEUILLE 3: FOURNISSEURS (10 lignes × 6 colonnes)}
+
+\begin{longtable}{|c|>{\columncolor{lightblue}}p{3.5cm}|p{2cm}|p{3.5cm}|p{3.5cm}|p{4.5cm}|}
+\hline
+\rowcolor{headercolor}
+\textbf{\textcolor{white}{N°}} & 
+\textbf{\textcolor{white}{Colonne Excel}} & 
+\textbf{\textcolor{white}{Type}} & 
+\textbf{\textcolor{white}{Table DW}} & 
+\textbf{\textcolor{white}{Champ DW}} & 
+\textbf{\textcolor{white}{Transformation}} \\
+\hline
+
+1 & Fournisseur\_ID & object & DIM\_FOURNISSEUR & ID\_Fournisseur & OK (10 fournisseurs) \\
+\hline
+
+2 & Nom\_Fournisseur & object & DIM\_FOURNISSEUR & Nom\_Fournisseur & OK (4 noms uniques) \\
+\hline
+
+3 & Pays & object & DIM\_FOURNISSEUR & Pays\_Origine & \textcolor{warning}{'cn'→'CHN', 'France'→'FRA'} \\
+\hline
+
+4 & Evaluation & float64 & DIM\_FOURNISSEUR & Note\_Fiabilite & \textcolor{warning}{Normaliser [3-10] → [1-5]} \\
+\hline
+
+5 & Délai\_Moyen\_Livraison & object & DIM\_FOURNISSEUR & Delai\_Moyen\_Livraison & \textcolor{warning}{'non défini' → NULL} \\
+\hline
+
+6 & Fiabilité\_\% & float64 & DIM\_FOURNISSEUR & Taux\_Retard\_Pct & \textcolor{warning}{\textbf{CRITIQUE:}} 120\% → Corriger à 100\% max \\
+\hline
+
+\caption{Mapping Fournisseurs}
+\end{longtable}
+
+\newpage
+\section*{CHAMPS CALCULÉS}
+
+\begin{longtable}{|>{\columncolor{lightblue}}p{5cm}|p{8cm}|p{6cm}|}
+\hline
+\rowcolor{headercolor}
+\textbf{\textcolor{white}{Champ Calculé}} & 
+\textbf{\textcolor{white}{Formule}} & 
+\textbf{\textcolor{white}{Source}} \\
+\hline
+
+Prix\_Unitaire & \texttt{Revenu\_Total / (Quantite × (1 - Remise\_\%/100))} & Transactions (rétro-calculé) \\
+\hline
+
+Montant\_Brut & \texttt{Prix\_Unitaire × Quantite} & Transactions \\
+\hline
+
+Montant\_Remise & \texttt{Montant\_Brut × Remise\_\%/100} & Transactions \\
+\hline
+
+Delai\_Livraison\_Jours & \texttt{Date\_Livraison - Date} (en jours) & Transactions \\
+\hline
+
+Indicateur\_Retard & \texttt{IF (Statut\_Livraison = 'En attente', 1, 0)} & Transactions \\
+\hline
+
+Note\_Fiabilite (normalisée) & \texttt{((Evaluation - 3) / 7) × 4 + 1} & Fournisseurs \\
+\hline
+
+\caption{Champs calculés lors de l'ETL}
+\end{longtable}
+
+\section*{COLONNES MANQUANTES (à obtenir)}
+
+\begin{longtable}{|>{\columncolor{warning!30}}p{5cm}|p{6cm}|p{7cm}|}
+\hline
+\rowcolor{warning}
+\textbf{\textcolor{white}{Dimension}} & 
+\textbf{\textcolor{white}{Colonnes Manquantes}} & 
+\textbf{\textcolor{white}{Action Requise}} \\
+\hline
+
+DIM\_CLIENT & Nom, Prénom, Email, Téléphone, Ville, Code\_Postal, Date\_Inscription & Créer feuille "Clients" ou obtenir source externe \\
+\hline
+
+DIM\_PRODUIT & Nom\_Produit, Categorie, Sous\_Categorie, Prix\_Catalogue, Marque & Créer feuille "Produits" ou obtenir source externe \\
+\hline
+
+DIM\_REGION & Département, Région\_Administrative & Enrichir depuis Code\_Postal \\
+\hline
+
+\caption{Données manquantes}
+\end{longtable}
+
+\section*{PROBLÈMES QUALITÉ DÉTECTÉS}
+
+\begin{longtable}{|c|>{\columncolor{lightblue}}p{4cm}|p{5cm}|p{8cm}|}
+\hline
+\rowcolor{headercolor}
+\textbf{\textcolor{white}{Priorité}} & 
+\textbf{\textcolor{white}{Colonne}} & 
+\textbf{\textcolor{white}{Problème}} & 
+\textbf{\textcolor{white}{Solution}} \\
+\hline
+
+\textcolor{warning}{\textbf{CRITIQUE}} & Remise\_\% & Valeurs -10\% et 150\% & Clipper à [0, 100] \\
+\hline
+
+\textcolor{warning}{\textbf{CRITIQUE}} & Canal\_Vente & Incohérence casse & Normaliser à Title Case \\
+\hline
+
+\textcolor{warning}{\textbf{CRITIQUE}} & Score & Valeurs texte + numérique & Mapper texte→numérique \\
+\hline
+
+\textcolor{warning}{\textbf{CRITIQUE}} & Fiabilité\_\% & Valeur 120\% & Clipper à max 100\% \\
+\hline
+
+ÉLEVÉE & Date & 99 formats différents & Parser avec date flexible \\
+\hline
+
+ÉLEVÉE & Revenu\_Total & 15 valeurs NULL & Recalculer si données complètes \\
+\hline
+
+MOYENNE & Pays & Codes incohérents & Dictionnaire de mapping \\
+\hline
+
+MOYENNE & Evaluation & Échelle 3-10 & Normaliser sur [1-5] \\
+\hline
+
+\caption{Problèmes qualité par priorité}
+\end{longtable}
+
+\end{document}

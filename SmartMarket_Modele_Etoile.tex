@@ -1,0 +1,253 @@
+\documentclass[12pt,a4paper]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{tikz}
+\usepackage{hyperref}
+
+\geometry{top=2cm, bottom=2cm, left=2cm, right=2cm}
+
+\definecolor{headercolor}{RGB}{41, 128, 185}
+\definecolor{lightblue}{RGB}{174, 214, 241}
+
+\title{\textbf{Projet SmartMarket} \\ Modèle en Étoile - Data Warehouse}
+\author{Analyse des Données de Vente}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Architecture du Modèle en Étoile}
+
+Le modèle adopte une architecture en étoile avec:
+\begin{itemize}
+    \item \textbf{1 table de faits}: FAIT\_VENTES
+    \item \textbf{6 tables de dimensions}: DIM\_CLIENT, DIM\_PRODUIT, DIM\_TEMPS, DIM\_CANAL, DIM\_REGION, DIM\_FOURNISSEUR
+\end{itemize}
+
+\subsection{Schéma Conceptuel}
+
+\begin{center}
+\begin{tikzpicture}[
+    dimension/.style={rectangle, draw=blue!60, fill=blue!5, thick, minimum height=1.2cm, minimum width=2.5cm, align=center},
+    fait/.style={rectangle, draw=red!60, fill=red!10, thick, minimum height=1.8cm, minimum width=2.5cm, align=center}
+]
+
+\node[fait] (fait) at (0,0) {\textbf{FAIT\_VENTES}};
+\node[dimension] (client) at (-4,2.5) {\textbf{DIM\_CLIENT}};
+\node[dimension] (produit) at (4,2.5) {\textbf{DIM\_PRODUIT}};
+\node[dimension] (temps) at (0,3.5) {\textbf{DIM\_TEMPS}};
+\node[dimension] (canal) at (-4,-2) {\textbf{DIM\_CANAL}};
+\node[dimension] (region) at (0,-3) {\textbf{DIM\_REGION}};
+\node[dimension] (fournisseur) at (4,-2) {\textbf{DIM\_FOURNISSEUR}};
+
+\draw[->, thick] (client) -- (fait);
+\draw[->, thick] (produit) -- (fait);
+\draw[->, thick] (temps) -- (fait);
+\draw[->, thick] (canal) -- (fait);
+\draw[->, thick] (region) -- (fait);
+\draw[->, thick] (fournisseur) -- (fait);
+
+\end{tikzpicture}
+\end{center}
+
+\newpage
+\section{Tables du Modèle}
+
+\subsection{FAIT\_VENTES (Table de Faits)}
+
+\begin{longtable}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
+\hline
+\rowcolor{headercolor}
+\textbf{\textcolor{white}{Colonne}} & 
+\textbf{\textcolor{white}{Type}} & 
+\textbf{\textcolor{white}{Description}} \\
+\hline
+\multicolumn{3}{|c|}{\textbf{CLÉS}} \\
+\hline
+ID\_Vente & INT & Clé primaire (PK) \\
+ID\_Client & INT & FK vers DIM\_CLIENT \\
+ID\_Produit & INT & FK vers DIM\_PRODUIT \\
+ID\_Date & INT & FK vers DIM\_TEMPS \\
+ID\_Canal & INT & FK vers DIM\_CANAL \\
+ID\_Region & INT & FK vers DIM\_REGION \\
+ID\_Fournisseur & INT & FK vers DIM\_FOURNISSEUR \\
+\hline
+\multicolumn{3}{|c|}{\textbf{MÉTRIQUES}} \\
+\hline
+Quantite & INT & Quantité vendue \\
+Prix\_Unitaire & DECIMAL(10,2) & Prix unitaire \\
+Taux\_Remise & DECIMAL(5,2) & Taux de remise (\%) \\
+Montant\_Brut & DECIMAL(10,2) & Prix × Quantité \\
+Montant\_Remise & DECIMAL(10,2) & Montant de remise \\
+Revenu\_Reel & DECIMAL(10,2) & Revenu après remise \\
+Note\_Satisfaction & DECIMAL(3,2) & Note 1-5 \\
+Delai\_Livraison\_Jours & INT & Délai en jours \\
+Indicateur\_Retard & BOOLEAN & 1=retard, 0=OK \\
+\hline
+\caption{Structure FAIT\_VENTES}
+\end{longtable}
+
+\subsection{DIM\_CLIENT}
+
+\begin{longtable}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
+\hline
+\rowcolor{headercolor}
+\textbf{\textcolor{white}{Colonne}} & 
+\textbf{\textcolor{white}{Type}} & 
+\textbf{\textcolor{white}{Description}} \\
+\hline
+ID\_Client & INT & Clé primaire \\
+Nom\_Client & VARCHAR(100) & Nom \\
+Prenom\_Client & VARCHAR(100) & Prénom \\
+Email & VARCHAR(150) & Email validé \\
+Telephone & VARCHAR(20) & Téléphone \\
+Date\_Inscription & DATE & Date inscription \\
+Segment\_RFM & VARCHAR(50) & Segment client \\
+Statut\_Activite & VARCHAR(30) & Actif/Inactif \\
+Ville & VARCHAR(100) & Ville \\
+Code\_Postal & VARCHAR(10) & Code postal \\
+\hline
+\caption{Structure DIM\_CLIENT}
+\end{longtable}
+
+\subsection{DIM\_PRODUIT}
+
+\begin{longtable}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
+\hline
+\rowcolor{headercolor}
+\textbf{\textcolor{white}{Colonne}} & 
+\textbf{\textcolor{white}{Type}} & 
+\textbf{\textcolor{white}{Description}} \\
+\hline
+ID\_Produit & INT & Clé primaire \\
+Nom\_Produit & VARCHAR(200) & Nom produit \\
+Categorie & VARCHAR(100) & Catégorie \\
+Sous\_Categorie & VARCHAR(100) & Sous-catégorie \\
+Prix\_Catalogue & DECIMAL(10,2) & Prix catalogue \\
+Marque & VARCHAR(100) & Marque \\
+Statut & VARCHAR(20) & Actif/Discontinué \\
+\hline
+\caption{Structure DIM\_PRODUIT}
+\end{longtable}
+
+\subsection{DIM\_TEMPS}
+
+\begin{longtable}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
+\hline
+\rowcolor{headercolor}
+\textbf{\textcolor{white}{Colonne}} & 
+\textbf{\textcolor{white}{Type}} & 
+\textbf{\textcolor{white}{Description}} \\
+\hline
+ID\_Date & INT & PK (YYYYMMDD) \\
+Date\_Complete & DATE & Date complète \\
+Jour & INT & Jour (1-31) \\
+Mois & INT & Mois (1-12) \\
+Trimestre & INT & Trimestre (1-4) \\
+Annee & INT & Année \\
+Nom\_Mois & VARCHAR(20) & Nom du mois \\
+Jour\_Semaine & INT & 1=Lundi, 7=Dimanche \\
+Est\_Weekend & BOOLEAN & 1=Weekend \\
+\hline
+\caption{Structure DIM\_TEMPS}
+\end{longtable}
+
+\subsection{DIM\_CANAL}
+
+\begin{longtable}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
+\hline
+\rowcolor{headercolor}
+\textbf{\textcolor{white}{Colonne}} & 
+\textbf{\textcolor{white}{Type}} & 
+\textbf{\textcolor{white}{Description}} \\
+\hline
+ID\_Canal & INT & Clé primaire \\
+Nom\_Canal & VARCHAR(50) & Online/Boutique/Téléphone \\
+Type\_Canal & VARCHAR(50) & Digital/Physique/Vocal \\
+\hline
+\caption{Structure DIM\_CANAL}
+\end{longtable}
+
+\subsection{DIM\_REGION}
+
+\begin{longtable}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
+\hline
+\rowcolor{headercolor}
+\textbf{\textcolor{white}{Colonne}} & 
+\textbf{\textcolor{white}{Type}} & 
+\textbf{\textcolor{white}{Description}} \\
+\hline
+ID\_Region & INT & Clé primaire \\
+Ville & VARCHAR(100) & Ville \\
+Code\_Postal & VARCHAR(10) & Code postal \\
+Departement & VARCHAR(100) & Département \\
+Region\_Administrative & VARCHAR(100) & Région \\
+Pays & VARCHAR(50) & Pays \\
+\hline
+\caption{Structure DIM\_REGION}
+\end{longtable}
+
+\subsection{DIM\_FOURNISSEUR}
+
+\begin{longtable}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
+\hline
+\rowcolor{headercolor}
+\textbf{\textcolor{white}{Colonne}} & 
+\textbf{\textcolor{white}{Type}} & 
+\textbf{\textcolor{white}{Description}} \\
+\hline
+ID\_Fournisseur & INT & Clé primaire \\
+Nom\_Fournisseur & VARCHAR(200) & Nom fournisseur \\
+Pays\_Origine & VARCHAR(50) & Pays origine \\
+Note\_Fiabilite & DECIMAL(3,2) & Note 1-5 \\
+Delai\_Moyen\_Livraison & INT & Délai moyen (jours) \\
+Taux\_Retard\_Pct & DECIMAL(5,2) & \% de retards \\
+Statut & VARCHAR(20) & Actif/Suspendu \\
+\hline
+\caption{Structure DIM\_FOURNISSEUR}
+\end{longtable}
+
+\newpage
+\section{Mapping Excel → Data Warehouse}
+
+\begin{longtable}{|p{1cm}|>{\columncolor{lightblue}}p{5cm}|p{3.5cm}|p{4cm}|}
+\hline
+\rowcolor{headercolor}
+\textbf{\textcolor{white}{N°}} & 
+\textbf{\textcolor{white}{Colonne Excel}} & 
+\textbf{\textcolor{white}{Table DW}} & 
+\textbf{\textcolor{white}{Champ DW}} \\
+\hline
+1 & ID\_Transaction & FAIT\_VENTES & ID\_Vente \\
+2 & Date\_Transaction & DIM\_TEMPS & Date\_Complete \\
+3 & Quantite & FAIT\_VENTES & Quantite \\
+4 & Prix\_Unitaire & FAIT\_VENTES & Prix\_Unitaire \\
+5 & Taux\_Remise & FAIT\_VENTES & Taux\_Remise \\
+6 & Canal\_Vente & DIM\_CANAL & Nom\_Canal \\
+7 & Note\_Satisfaction & FAIT\_VENTES & Note\_Satisfaction \\
+8 & ID\_Client & DIM\_CLIENT & ID\_Client \\
+9 & Nom\_Client & DIM\_CLIENT & Nom\_Client \\
+10 & Email & DIM\_CLIENT & Email \\
+11 & Ville & DIM\_REGION & Ville \\
+12 & ID\_Produit & DIM\_PRODUIT & ID\_Produit \\
+13 & Nom\_Produit & DIM\_PRODUIT & Nom\_Produit \\
+14 & Categorie & DIM\_PRODUIT & Categorie \\
+15 & ID\_Fournisseur & DIM\_FOURNISSEUR & ID\_Fournisseur \\
+16 & Nom\_Fournisseur & DIM\_FOURNISSEUR & Nom\_Fournisseur \\
+17 & Date\_Livraison & FAIT\_VENTES & Delai (calculé) \\
+\hline
+\caption{Mapping principal}
+\end{longtable}
+
+\end{document}
