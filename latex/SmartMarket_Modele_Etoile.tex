@@ -100,7 +100,9 @@ Indicateur\_Retard & BOOLEAN & 1=retard, 0=OK \\
 
 \subsection{DIM\_CLIENT}
 
-\begin{longtable}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
+\begin{table}[ht]
+\centering
+\begin{tabular}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
 \hline
 \rowcolor{headercolor}
 \textbf{\textcolor{white}{Colonne}} & 
@@ -118,12 +120,15 @@ Statut\_Activite & VARCHAR(30) & Actif/Inactif \\
 Ville & VARCHAR(100) & Ville \\
 Code\_Postal & VARCHAR(10) & Code postal \\
 \hline
+\end{tabular}
 \caption{Structure DIM\_CLIENT}
-\end{longtable}
+\end{table}
 
 \subsection{DIM\_PRODUIT}
 
-\begin{longtable}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
+\begin{table}[ht]
+\centering
+\begin{tabular}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
 \hline
 \rowcolor{headercolor}
 \textbf{\textcolor{white}{Colonne}} & 
@@ -138,12 +143,15 @@ Prix\_Catalogue & DECIMAL(10,2) & Prix catalogue \\
 Marque & VARCHAR(100) & Marque \\
 Statut & VARCHAR(20) & Actif/Discontinué \\
 \hline
+\end{tabular}
 \caption{Structure DIM\_PRODUIT}
-\end{longtable}
+\end{table}
 
 \subsection{DIM\_TEMPS}
 
-\begin{longtable}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
+\begin{table}[ht]
+\centering
+\begin{tabular}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
 \hline
 \rowcolor{headercolor}
 \textbf{\textcolor{white}{Colonne}} & 
@@ -160,12 +168,15 @@ Nom\_Mois & VARCHAR(20) & Nom du mois \\
 Jour\_Semaine & INT & 1=Lundi, 7=Dimanche \\
 Est\_Weekend & BOOLEAN & 1=Weekend \\
 \hline
+\end{tabular}
 \caption{Structure DIM\_TEMPS}
-\end{longtable}
+\end{table}
 
 \subsection{DIM\_CANAL}
 
-\begin{longtable}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
+\begin{table}[ht]
+\centering
+\begin{tabular}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
 \hline
 \rowcolor{headercolor}
 \textbf{\textcolor{white}{Colonne}} & 
@@ -176,12 +187,15 @@ ID\_Canal & INT & Clé primaire \\
 Nom\_Canal & VARCHAR(50) & Online/Boutique/Téléphone \\
 Type\_Canal & VARCHAR(50) & Digital/Physique/Vocal \\
 \hline
+\end{tabular}
 \caption{Structure DIM\_CANAL}
-\end{longtable}
+\end{table}
 
 \subsection{DIM\_REGION}
 
-\begin{longtable}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
+\begin{table}[ht]
+\centering
+\begin{tabular}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
 \hline
 \rowcolor{headercolor}
 \textbf{\textcolor{white}{Colonne}} & 
@@ -195,12 +209,15 @@ Departement & VARCHAR(100) & Département \\
 Region\_Administrative & VARCHAR(100) & Région \\
 Pays & VARCHAR(50) & Pays \\
 \hline
+\end{tabular}
 \caption{Structure DIM\_REGION}
-\end{longtable}
+\end{table}
 
 \subsection{DIM\_FOURNISSEUR}
 
-\begin{longtable}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
+\begin{table}[ht]
+\centering
+\begin{tabular}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
 \hline
 \rowcolor{headercolor}
 \textbf{\textcolor{white}{Colonne}} & 
@@ -215,8 +232,9 @@ Delai\_Moyen\_Livraison & INT & Délai moyen (jours) \\
 Taux\_Retard\_Pct & DECIMAL(5,2) & \% de retards \\
 Statut & VARCHAR(20) & Actif/Suspendu \\
 \hline
+\end{tabular}
 \caption{Structure DIM\_FOURNISSEUR}
-\end{longtable}
+\end{table}
 
 \newpage
 \section{Mapping Excel → Data Warehouse}
