@@ -1,6 +1,6 @@
-# 📊 MAPPING RÉEL: SmartMarket_raw.xlsx → Data Warehouse
+#  MAPPING RÉEL: SmartMarket_raw.xlsx → Data Warehouse
 
-## 📁 Structure du Fichier Excel
+##  Structure du Fichier Excel
 
 Votre fichier contient **3 feuilles**:
 1. **Transactions** - 100 lignes × 11 colonnes
@@ -18,14 +18,14 @@ Votre fichier contient **3 feuilles**:
 | 3 | Client_ID | object | DIM_CLIENT | ID_Client | Clé étrangère |
 | 4 | Produit_ID | object | DIM_PRODUIT | ID_Produit | Clé étrangère |
 | 5 | Quantite | int64 | FAIT_VENTES | Quantite | Vérifier > 0 |
-| 6 | Remise_% | float64 | FAIT_VENTES | Taux_Remise | **⚠️ Corriger -10% et 150%** |
-| 7 | Canal_Vente | object | DIM_CANAL | Nom_Canal | **⚠️ Standardiser: 'En ligne'/'en ligne'** |
+| 6 | Remise_% | float64 | FAIT_VENTES | Taux_Remise | ** Corriger -10% et 150%** |
+| 7 | Canal_Vente | object | DIM_CANAL | Nom_Canal | ** Standardiser: 'En ligne'/'en ligne'** |
 | 8 | Mode_Paiement | object | - | - | Dimension additionnelle possible |
 | 9 | Statut_Livraison | object | FAIT_VENTES | Indicateur_Retard | Mapper à 0/1 |
 | 10 | Date_Livraison | object | FAIT_VENTES | Delai_Livraison_Jours | Calculer: Date_Livraison - Date |
-| 11 | Revenu_Total | float64 | FAIT_VENTES | Revenu_Reel | **⚠️ 15 valeurs NULL** |
+| 11 | Revenu_Total | float64 | FAIT_VENTES | Revenu_Reel | ** 15 valeurs NULL** |
 
-### ⚠️ PROBLÈMES DÉTECTÉS - Transactions
+###  PROBLÈMES DÉTECTÉS - Transactions
 
 1. **Remise_%**: Valeurs aberrantes (-10%, 150%) → Corriger à [0-100%]
 2. **Canal_Vente**: Incohérence casse ('En ligne' vs 'en ligne') → Standardiser
@@ -41,10 +41,10 @@ Votre fichier contient **3 feuilles**:
 |----|---------------|------|----------|----------|----------------|
 | 1 | Client_ID | object | DIM_CLIENT | ID_Client | Jointure avec Transactions |
 | 2 | Date_Enquete | object | DIM_TEMPS | Date_Complete | Standardiser format |
-| 3 | Score | object | FAIT_VENTES | Note_Satisfaction | **⚠️ Convertir texte en numérique** |
+| 3 | Score | object | FAIT_VENTES | Note_Satisfaction | ** Convertir texte en numérique** |
 | 4 | Commentaire | object | - | - | Analyse qualitative optionnelle |
 
-### ⚠️ PROBLÈMES DÉTECTÉS - Satisfaction
+###  PROBLÈMES DÉTECTÉS - Satisfaction
 
 1. **Score**: Valeurs mixtes (1-5, 'Bon', 'Très satisfait') → Normaliser sur échelle 1-5
 2. **Score**: 11 valeurs NULL → Décider comment traiter
@@ -63,12 +63,12 @@ Votre fichier contient **3 feuilles**:
 |----|---------------|------|----------|----------|----------------|
 | 1 | Fournisseur_ID | object | DIM_FOURNISSEUR | ID_Fournisseur | Clé primaire |
 | 2 | Nom_Fournisseur | object | DIM_FOURNISSEUR | Nom_Fournisseur | OK |
-| 3 | Pays | object | DIM_FOURNISSEUR | Pays_Origine | **⚠️ Standardiser codes pays** |
-| 4 | Evaluation | float64 | DIM_FOURNISSEUR | Note_Fiabilite | **⚠️ Normaliser sur 1-5** |
-| 5 | Délai_Moyen_Livraison | object | DIM_FOURNISSEUR | Delai_Moyen_Livraison | **⚠️ Convertir 'non défini'** |
-| 6 | Fiabilité_% | float64 | DIM_FOURNISSEUR | Taux_Retard_Pct | **⚠️ Corriger 120%** |
+| 3 | Pays | object | DIM_FOURNISSEUR | Pays_Origine | ** Standardiser codes pays** |
+| 4 | Evaluation | float64 | DIM_FOURNISSEUR | Note_Fiabilite | ** Normaliser sur 1-5** |
+| 5 | Délai_Moyen_Livraison | object | DIM_FOURNISSEUR | Delai_Moyen_Livraison | ** Convertir 'non défini'** |
+| 6 | Fiabilité_% | float64 | DIM_FOURNISSEUR | Taux_Retard_Pct | ** Corriger 120%** |
 
-### ⚠️ PROBLÈMES DÉTECTÉS - Fournisseurs
+###  PROBLÈMES DÉTECTÉS - Fournisseurs
 
 1. **Pays**: Incohérence ('cn', 'CHN', 'France', 'FR') → Standardiser ('CHN', 'FRA')
 2. **Evaluation**: Échelle 3-10 → Normaliser sur 1-5
@@ -77,7 +77,7 @@ Votre fichier contient **3 feuilles**:
 
 ---
 
-## 🧮 CHAMPS CALCULÉS À CRÉER
+##  CHAMPS CALCULÉS À CRÉER
 
 | Champ Calculé | Formule | Source |
 |---------------|---------|--------|
@@ -89,7 +89,7 @@ Votre fichier contient **3 feuilles**:
 
 ---
 
-## 🛠️ RÈGLES DE NETTOYAGE PAR COLONNE
+##  RÈGLES DE NETTOYAGE PAR COLONNE
 
 ### Remise_% (CRITIQUE)
 ```python
@@ -136,65 +136,65 @@ df['Evaluation'] = df['Evaluation'].clip(1, 5)
 
 ---
 
-## 📋 COLONNES MANQUANTES (à créer ou obtenir)
+##  COLONNES MANQUANTES (à créer ou obtenir)
 
 Les colonnes suivantes sont attendues dans le modèle mais absentes du fichier Excel:
 
 ### DIM_CLIENT
-- ❌ Nom_Client
-- ❌ Prenom_Client  
-- ❌ Email
-- ❌ Telephone
-- ❌ Date_Inscription
-- ❌ Ville
-- ❌ Code_Postal
+-  Nom_Client
+-  Prenom_Client  
+-  Email
+-  Telephone
+-  Date_Inscription
+-  Ville
+-  Code_Postal
 
 **Solution**: Créer une feuille "Clients" ou obtenir ces données d'une autre source
 
 ### DIM_PRODUIT
-- ❌ Nom_Produit
-- ❌ Categorie
-- ❌ Sous_Categorie
-- ❌ Prix_Catalogue
-- ❌ Marque
+-  Nom_Produit
+-  Categorie
+-  Sous_Categorie
+-  Prix_Catalogue
+-  Marque
 
 **Solution**: Créer une feuille "Produits" ou obtenir ces données d'une autre source
 
 ---
 
-## 🎯 PLAN D'ACTION ETL
+##  PLAN D'ACTION ETL
 
 ### Phase 1: Nettoyage
-1. ✅ Corriger Remise_% (valeurs hors [0-100])
-2. ✅ Standardiser Canal_Vente (casse incohérente)
-3. ✅ Normaliser Score satisfaction (texte → numérique)
-4. ✅ Standardiser codes Pays
-5. ✅ Corriger Fiabilité_% > 100%
-6. ✅ Convertir dates au format ISO
+1.  Corriger Remise_% (valeurs hors [0-100])
+2.  Standardiser Canal_Vente (casse incohérente)
+3.  Normaliser Score satisfaction (texte → numérique)
+4.  Standardiser codes Pays
+5.  Corriger Fiabilité_% > 100%
+6.  Convertir dates au format ISO
 
 ### Phase 2: Transformation
-1. ✅ Calculer Prix_Unitaire (rétro-calculé depuis Revenu_Total)
-2. ✅ Calculer Delai_Livraison_Jours
-3. ✅ Créer Indicateur_Retard
-4. ✅ Normaliser Evaluation fournisseurs (1-5)
-5. ✅ Gérer valeurs NULL dans Revenu_Total
+1.  Calculer Prix_Unitaire (rétro-calculé depuis Revenu_Total)
+2.  Calculer Delai_Livraison_Jours
+3.  Créer Indicateur_Retard
+4.  Normaliser Evaluation fournisseurs (1-5)
+5.  Gérer valeurs NULL dans Revenu_Total
 
 ### Phase 3: Enrichissement
-1. ⚠️ Obtenir données clients (nom, email, ville, etc.)
-2. ⚠️ Obtenir données produits (nom, catégorie, prix, etc.)
-3. ✅ Créer dimension DIM_TEMPS
-4. ✅ Créer dimension DIM_CANAL
-5. ✅ Créer dimension DIM_REGION (depuis données clients)
+1.  Obtenir données clients (nom, email, ville, etc.)
+2.  Obtenir données produits (nom, catégorie, prix, etc.)
+3.  Créer dimension DIM_TEMPS
+4.  Créer dimension DIM_CANAL
+5.  Créer dimension DIM_REGION (depuis données clients)
 
 ### Phase 4: Chargement
-1. ✅ Charger dimensions (CLIENTS, PRODUITS, TEMPS, etc.)
-2. ✅ Charger table de faits (FAIT_VENTES)
-3. ✅ Vérifier intégrité référentielle
-4. ✅ Créer index et clés étrangères
+1.  Charger dimensions (CLIENTS, PRODUITS, TEMPS, etc.)
+2.  Charger table de faits (FAIT_VENTES)
+3.  Vérifier intégrité référentielle
+4.  Créer index et clés étrangères
 
 ---
 
-## 📊 STATISTIQUES DESCRIPTIVES
+##  STATISTIQUES DESCRIPTIVES
 
 ### Transactions
 - **Quantité moyenne**: 4.65 unités
@@ -218,7 +218,7 @@ Les colonnes suivantes sont attendues dans le modèle mais absentes du fichier E
 
 ---
 
-## ✅ PROCHAINES ÉTAPES
+##  PROCHAINES ÉTAPES
 
 1. **Exécuter le script de nettoyage** (à créer)
 2. **Obtenir les données manquantes** (clients, produits)

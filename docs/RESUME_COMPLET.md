@@ -1,6 +1,6 @@
-# 📊 RÉSUMÉ COMPLET - PROJET SMARTMARKET
+#  RÉSUMÉ COMPLET - PROJET SMARTMARKET
 
-## ✅ FICHIERS CRÉÉS
+##  FICHIERS CRÉÉS
 
 1. **analyze_excel.py** - Script d'analyse du fichier Excel
 2. **MAPPING_COLONNES.md** - Mapping théorique attendu
@@ -11,7 +11,7 @@
 
 ---
 
-## 📁 STRUCTURE DE VOTRE FICHIER EXCEL
+##  STRUCTURE DE VOTRE FICHIER EXCEL
 
 ### **Feuille 1: TRANSACTIONS** (100 lignes)
 ```
@@ -47,9 +47,9 @@
 
 ---
 
-## ⚠️ PROBLÈMES CRITIQUES DÉTECTÉS
+##  PROBLÈMES CRITIQUES DÉTECTÉS
 
-### 🔴 PRIORITÉ 1 - À CORRIGER IMMÉDIATEMENT
+###  PRIORITÉ 1 - À CORRIGER IMMÉDIATEMENT
 
 | Colonne | Problème | Impact | Solution |
 |---------|----------|--------|----------|
@@ -58,7 +58,7 @@
 | **Score** | Valeurs mixtes ('Bon', 5, 'Très satisfait') | Impossible à analyser | Mapper texte→numérique |
 | **Fiabilité_%** | Valeur 120% | Impossible mathématiquement | Corriger à max 100% |
 
-### 🟡 PRIORITÉ 2 - À TRAITER RAPIDEMENT
+###  PRIORITÉ 2 - À TRAITER RAPIDEMENT
 
 | Colonne | Problème | Impact | Solution |
 |---------|----------|--------|----------|
@@ -69,7 +69,7 @@
 
 ---
 
-## 🎯 MAPPING VERS DATA WAREHOUSE
+##  MAPPING VERS DATA WAREHOUSE
 
 ### TABLE DE FAITS: FAIT_VENTES
 
@@ -80,7 +80,7 @@
 | ID_Produit | Produit_ID | Transactions | FK |
 | ID_Date | Date | Transactions | Lookup DIM_TEMPS |
 | ID_Canal | Canal_Vente | Transactions | Lookup DIM_CANAL |
-| ID_Fournisseur | ❌ MANQUANT | - | À obtenir |
+| ID_Fournisseur |  MANQUANT | - | À obtenir |
 | Quantite | Quantite | Transactions | Direct |
 | Prix_Unitaire | Revenu_Total / (Quantite × (1-Remise%/100)) | Transactions | **Calculé** |
 | Taux_Remise | Remise_% | Transactions | Nettoyé [0-100] |
@@ -94,52 +94,52 @@
 #### DIM_CLIENT
 | Champ | Source | Statut |
 |-------|--------|--------|
-| ID_Client | Client_ID | ✅ Disponible |
-| Nom_Client | - | ❌ MANQUANT |
-| Prenom_Client | - | ❌ MANQUANT |
-| Email | - | ❌ MANQUANT |
-| Telephone | - | ❌ MANQUANT |
-| Ville | - | ❌ MANQUANT |
-| Date_Inscription | - | ❌ MANQUANT |
+| ID_Client | Client_ID |  Disponible |
+| Nom_Client | - |  MANQUANT |
+| Prenom_Client | - |  MANQUANT |
+| Email | - |  MANQUANT |
+| Telephone | - |  MANQUANT |
+| Ville | - |  MANQUANT |
+| Date_Inscription | - |  MANQUANT |
 
 **🚨 ACTION REQUISE**: Créer feuille "Clients" avec 42 lignes (1 par client unique)
 
 #### DIM_PRODUIT
 | Champ | Source | Statut |
 |-------|--------|--------|
-| ID_Produit | Produit_ID | ✅ Disponible |
-| Nom_Produit | - | ❌ MANQUANT |
-| Categorie | - | ❌ MANQUANT |
-| Prix_Catalogue | - | ❌ MANQUANT |
-| Marque | - | ❌ MANQUANT |
+| ID_Produit | Produit_ID |  Disponible |
+| Nom_Produit | - |  MANQUANT |
+| Categorie | - |  MANQUANT |
+| Prix_Catalogue | - |  MANQUANT |
+| Marque | - |  MANQUANT |
 
 **🚨 ACTION REQUISE**: Créer feuille "Produits" avec 30 lignes (1 par produit unique)
 
 #### DIM_FOURNISSEUR
 | Champ | Source | Statut |
 |-------|--------|--------|
-| ID_Fournisseur | Fournisseur_ID | ✅ Disponible |
-| Nom_Fournisseur | Nom_Fournisseur | ✅ Disponible |
-| Pays_Origine | Pays | ⚠️ À nettoyer |
-| Note_Fiabilite | Evaluation | ⚠️ À normaliser |
-| Delai_Moyen_Livraison | Délai_Moyen_Livraison | ⚠️ À nettoyer |
-| Taux_Retard_Pct | Fiabilité_% | ⚠️ À corriger |
+| ID_Fournisseur | Fournisseur_ID |  Disponible |
+| Nom_Fournisseur | Nom_Fournisseur |  Disponible |
+| Pays_Origine | Pays |  À nettoyer |
+| Note_Fiabilite | Evaluation |  À normaliser |
+| Delai_Moyen_Livraison | Délai_Moyen_Livraison |  À nettoyer |
+| Taux_Retard_Pct | Fiabilité_% |  À corriger |
 
 #### DIM_TEMPS
-✅ **À GÉNÉRER**: Créer dimension calendrier complète (2021-2024)
+ **À GÉNÉRER**: Créer dimension calendrier complète (2021-2024)
 
 #### DIM_CANAL
-✅ **À GÉNÉRER**: 3 canaux identifiés:
+ **À GÉNÉRER**: 3 canaux identifiés:
 - En Ligne (online)
 - Boutique (physique)
 - Téléphone (vocal)
 
 #### DIM_REGION
-❌ **BLOQUÉ**: Nécessite données Ville depuis table Clients
+ **BLOQUÉ**: Nécessite données Ville depuis table Clients
 
 ---
 
-## 🛠️ CODE DE NETTOYAGE PYTHON
+##  CODE DE NETTOYAGE PYTHON
 
 ```python
 import pandas as pd
@@ -223,12 +223,12 @@ with pd.ExcelWriter('SmartMarket_cleaned.xlsx') as writer:
     df_satisf.to_excel(writer, sheet_name='Satisfaction', index=False)
     df_fourn.to_excel(writer, sheet_name='Fournisseurs', index=False)
 
-print("✅ Fichier nettoyé créé: SmartMarket_cleaned.xlsx")
+print(" Fichier nettoyé créé: SmartMarket_cleaned.xlsx")
 ```
 
 ---
 
-## 📊 MODÈLE EN ÉTOILE - SCHÉMA SQL
+##  MODÈLE EN ÉTOILE - SCHÉMA SQL
 
 ```sql
 -- ===========================
@@ -328,7 +328,7 @@ CREATE TABLE FAIT_VENTES (
 
 ---
 
-## 📈 REQUÊTES SQL POUR LES 20 OBJECTIFS
+##  REQUÊTES SQL POUR LES 20 OBJECTIFS
 
 ### Objectif 1: CA par année et canal
 ```sql
@@ -429,9 +429,9 @@ ORDER BY Panier_Moyen DESC;
 
 ---
 
-## 🎯 PLAN D'ACTION - NEXT STEPS
+##  PLAN D'ACTION - NEXT STEPS
 
-### ✅ DÉJÀ FAIT
+###  DÉJÀ FAIT
 - [x] Analyse structure fichier Excel
 - [x] Identification des colonnes disponibles
 - [x] Détection problèmes qualité
@@ -439,7 +439,7 @@ ORDER BY Panier_Moyen DESC;
 - [x] Mapping Excel → DW
 - [x] Scripts de nettoyage
 
-### 🔴 URGENT - À FAIRE MAINTENANT
+###  URGENT - À FAIRE MAINTENANT
 
 1. **Corriger les données** (fichier Excel)
    - Nettoyer Remise_% [-10% → 0%, 150% → 100%]
@@ -452,7 +452,7 @@ ORDER BY Panier_Moyen DESC;
    - Créer feuille "Produits" (30 lignes)
    - Lier Fournisseurs aux Transactions
 
-### 🟡 IMPORTANT - PHASE 2
+###  IMPORTANT - PHASE 2
 
 3. **Créer le Data Warehouse**
    - Exécuter scripts SQL de création
@@ -464,7 +464,7 @@ ORDER BY Panier_Moyen DESC;
    - Script de transformation
    - Script de chargement DW
 
-### 🟢 PHASE 3 - EXPLOITATION
+###  PHASE 3 - EXPLOITATION
 
 5. **Créer les dashboards**
    - Power BI / Tableau
@@ -478,9 +478,9 @@ ORDER BY Panier_Moyen DESC;
 
 ---
 
-## 📞 POINTS D'ATTENTION
+##  POINTS D'ATTENTION
 
-### ⚠️ DÉCISIONS À PRENDRE
+###  DÉCISIONS À PRENDRE
 
 1. **Données clients manquantes**: Quelle est la source?
 2. **Données produits manquantes**: Catalogue disponible?
@@ -488,7 +488,7 @@ ORDER BY Panier_Moyen DESC;
 4. **Valeurs NULL dans Revenu_Total**: Recalculer ou exclure?
 5. **Mode_Paiement**: Créer une dimension dédiée?
 
-### 💡 RECOMMANDATIONS
+###  RECOMMANDATIONS
 
 1. **Qualité des données**: Mettre en place contrôles qualité automatiques
 2. **Documentation**: Maintenir glossaire des données

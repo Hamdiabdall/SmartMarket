@@ -151,8 +151,8 @@ def generate_report(df_trans, df_satisf, df_fourn):
 
 def main():
     """Fonction principale"""
-    input_file = "/home/hamdi/Desktop/Data-Anaytic/SmartMarket_raw.xlsx"
-    output_file = "/home/hamdi/Desktop/Data-Anaytic/SmartMarket_cleaned.xlsx"
+    input_file = "../data/SmartMarket_raw.xlsx"
+    output_file = "../data/SmartMarket_cleaned.xlsx"
     
     print("="*80)
     print("🚀 DÉMARRAGE DU NETTOYAGE DES DONNÉES SMARTMARKET")

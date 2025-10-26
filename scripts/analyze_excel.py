@@ -65,5 +65,5 @@ def analyze_excel(file_path):
         sys.exit(1)
 
 if __name__ == "__main__":
-    file_path = "/home/hamdi/Desktop/Data-Anaytic/SmartMarket_raw.xlsx"
+    file_path = "../data/SmartMarket_raw.xlsx"
     analyze_excel(file_path)

@@ -1,88 +1,104 @@
-# 📊 PROJET SMARTMARKET - DATA WAREHOUSE
+# Projet SmartMarket - Analyse des Ventes
 
-## 🎯 Vue d'ensemble
+## Bienvenue
 
-Ce projet implémente un **Data Warehouse en modèle étoile** pour analyser les données de vente de SmartMarket. Il répond aux **20 objectifs** définis dans le cahier des charges.
+Ce projet vous aide à analyser les données de vente de SmartMarket. Nous avons créé un système de Data Warehouse (entrepôt de données) qui organise toutes vos informations de manière claire et facile à exploiter.
 
----
-
-## 📁 FICHIERS CRÉÉS
-
-| Fichier | Description | Statut |
-|---------|-------------|--------|
-| `SmartMarket_raw.xlsx` | Données brutes originales | ✅ Source |
-| `SmartMarket_cleaned.xlsx` | **Données nettoyées** | ✅ Créé |
-| `analyze_excel.py` | Script d'analyse des données | ✅ Créé |
-| `clean_data.py` | Script de nettoyage automatique | ✅ Créé |
-| `MAPPING_COLONNES_REEL.md` | Mapping détaillé Excel→DW | ✅ Créé |
-| `SmartMarket_Modele_Etoile.tex` | Documentation LaTeX complète | ✅ Créé |
-| `TABLE_LATEX_MAPPING.tex` | Tableaux de mapping LaTeX | ✅ Créé |
-| `RESUME_COMPLET.md` | Résumé exécutif du projet | ✅ Créé |
-| `README.md` | Ce fichier | ✅ Créé |
+**Objectif** : Répondre aux 20 questions clés de votre cahier des charges pour améliorer vos ventes, comprendre vos clients et optimiser vos opérations.
 
 ---
 
-## 🚀 DÉMARRAGE RAPIDE
+## Structure du Projet
 
-### 1️⃣ Analyser les données brutes
-```bash
-python3 analyze_excel.py
+```
+Data-Anaytic/
+├── data/              # Vos données
+│   ├── SmartMarket_raw.xlsx        (fichier original)
+│   ├── SmartMarket_cleaned.xlsx    (données nettoyées)
+│   └── Cas_Etude_SmartMarket_VF_F.pdf  (cahier des charges)
+│
+├── scripts/          # Outils automatiques
+│   ├── analyze_excel.py            (analyser vos données)
+│   └── clean_data.py               (nettoyer automatiquement)
+│
+├── docs/             # Documentation
+│   ├── MAPPING_COLONNES_REEL.md    (guide des colonnes Excel)
+│   └── RESUME_COMPLET.md           (référence complète)
+│
+├── latex/            # Documents techniques
+│   ├── SmartMarket_Modele_Etoile.tex
+│   └── TABLE_LATEX_MAPPING.tex
+│
+└── README.md            # Ce guide
 ```
 
-### 2️⃣ Nettoyer les données
+---
+
+## Comment Utiliser Ce Projet
+
+### Etape 1 : Voir ce qui est dans vos données
+```bash
+cd scripts
+python3 analyze_excel.py
+```
+Cela vous montre toutes les colonnes de votre fichier Excel, les types de données, et les éventuels problèmes.
+
+### Etape 2 : Nettoyer automatiquement vos données
 ```bash
 python3 clean_data.py
 ```
-✅ Crée `SmartMarket_cleaned.xlsx` avec toutes les corrections
+Un nouveau fichier `data/SmartMarket_cleaned.xlsx` sera créé avec toutes les corrections appliquées.
 
-### 3️⃣ Consulter la documentation
+### Etape 3 : Consulter les guides
 ```bash
-# Mapping détaillé
-cat MAPPING_COLONNES_REEL.md
+# Pour comprendre vos colonnes
+cat docs/MAPPING_COLONNES_REEL.md
 
-# Résumé complet
-cat RESUME_COMPLET.md
+# Pour un résumé complet
+cat docs/RESUME_COMPLET.md
 ```
 
 ---
 
-## 📊 RÉSULTATS DU NETTOYAGE
+## Ce Qui a Ete Nettoye Dans Vos Donnees
 
-### ✅ Corrections appliquées
+### Problemes corriges automatiquement
 
 | Problème | Avant | Après | Impact |
 |----------|-------|-------|--------|
-| **Remise_%** | -10% à 150% | 0% à 100% | ✅ Corrigé |
-| **Canal_Vente** | 'En ligne'/'en ligne' | 'En Ligne' | ✅ Standardisé |
-| **Score** | Texte + numérique | Numérique 1-5 | ✅ Normalisé |
-| **Pays** | 'cn', 'CHN', 'France', 'FR' | 'CHN', 'FRA' | ✅ Standardisé |
-| **Fiabilité_%** | 120% | 100% | ✅ Corrigé |
-| **Dates** | 99 formats | Format ISO | ✅ Standardisé |
+| **Remise_%** | -10% à 150% | 0% à 100% | Corrige |
+| **Canal_Vente** | 'En ligne'/'en ligne' | 'En Ligne' | Standardise |
+| **Score** | Texte + numérique | Numérique 1-5 | Normalise |
+| **Pays** | 'cn', 'CHN', 'France', 'FR' | 'CHN', 'FRA' | Standardise |
+| **Fiabilite_%** | 120% | 100% | Corrige |
+| **Dates** | 99 formats | Format ISO | Standardise |
 
-### 📈 Statistiques clés
+### Vos Donnees en Un Coup d'Oeil
 
-#### Transactions (100 lignes)
-- **Période**: 2020-02-29 → 2024-12-23
-- **CA Total**: 143,400 €
-- **Clients uniques**: 42
-- **Produits uniques**: 30
-- **Remise moyenne**: 27.73%
-- **Panier moyen**: 1,687 €
+#### Vos Ventes (100 transactions)
+- **Quand ?** De février 2020 à décembre 2024
+- **Combien ?** 143,400 € de chiffre d'affaires total
+- **Qui ?** 42 clients différents
+- **Quoi ?** 30 produits différents vendus
+- **Remise moyenne** que vous accordez : 27.73%
+- **Panier moyen** par achat : 1,687 €
 
-#### Satisfaction (60 évaluations)
-- **Score moyen**: 3.22/5
-- **Évaluations complètes**: 49 (82%)
+#### Satisfaction de Vos Clients (60 avis)
+- **Note moyenne** : 3.22 étoiles sur 5
+- **Taux de réponse** : 82% (49 avis complets sur 60)
 
-#### Fournisseurs (10 actifs)
-- **Note fiabilité moyenne**: 2.33/5
-- **Fiabilité moyenne**: 92.22%
-- **Délai moyen livraison**: 6.6 jours
+#### Vos Fournisseurs (10 partenaires)
+- **Fiabilité moyenne** : 92.22% (plutôt bon !)
+- **Délai de livraison moyen** : 6.6 jours
+- **Note générale** : 2.33/5 (il y a de la marge d'amélioration)
 
 ---
 
-## 🌟 MODÈLE EN ÉTOILE
+## Comment Sont Organisees Vos Donnees (Modele en Etoile)
 
-### Architecture
+### Schema Simplifie
+
+Imaginez une étoile : au centre, vos VENTES. Autour, toutes les informations liées :
 
 ```
          DIM_TEMPS
@@ -100,42 +116,40 @@ DIM_CLIENT ─────── FAIT_VENTES ─────── DIM_PRODUIT
       DIM_FOURNISSEUR
 ```
 
-### Tables disponibles
+### Ce Que Nous Avons
 
-#### ✅ Dimensions complètes
-- **DIM_TEMPS** - À générer (dimension calendrier)
-- **DIM_CANAL** - À générer (3 canaux identifiés)
-- **DIM_FOURNISSEUR** - ✅ Données disponibles (10 fournisseurs)
+#### Completement Pret
+- **TEMPS** - Dates, mois, années, trimestres... (calendrier complet)
+- **CANAUX** - Vos 3 moyens de vendre : En ligne, Boutique, Téléphone
+- **FOURNISSEURS** - Les 10 entreprises qui vous livrent
+- **VENTES** - Toutes vos transactions avec les montants, remises, etc.
 
-#### ⚠️ Dimensions partielles
-- **DIM_CLIENT** - ⚠️ IDs disponibles, détails manquants (nom, email, ville)
-- **DIM_PRODUIT** - ⚠️ IDs disponibles, détails manquants (nom, catégorie, prix)
-- **DIM_REGION** - ⚠️ Bloquée (nécessite données clients)
-
-#### ✅ Table de faits
-- **FAIT_VENTES** - ✅ Données disponibles après nettoyage
+#### Incomplet (Besoin de Plus d'Info)
+- **CLIENTS** - On a les numéros, mais il manque : noms, emails, villes
+- **PRODUITS** - On a les codes, mais il manque : noms, catégories, prix catalogue
+- **RÉGIONS** - Impossible à créer sans les villes des clients
 
 ---
 
-## 🎯 OBJECTIFS DU CAHIER DES CHARGES
+## Les 20 Questions de Votre Cahier des Charges
 
-### ✅ Réalisables immédiatement (données disponibles)
+### Ce Qu'On Peut Faire Tout de Suite
 
 | # | Objectif | Statut | Fichier |
 |---|----------|--------|---------|
-| 1 | CA par année et canal | ✅ | Transactions |
-| 2 | Top 10 produits vendus | ⚠️ | Transactions (sans nom produit) |
-| 3 | Taux remise moyen par catégorie | ❌ | Manque catégories |
-| 5 | Transactions incohérentes | ✅ | Transactions |
-| 6 | Nettoyer infos clients | ⚠️ | Données manquantes |
-| 7 | Standardiser catégories/prix | ✅ | Fait |
-| 8 | Corriger remises hors plage | ✅ | Fait |
-| 9 | Revenu réel par transaction | ✅ | Transactions |
-| 13 | Fiabilité fournisseurs | ✅ | Fournisseurs |
-| 14 | % livraisons en retard | ✅ | Transactions |
-| 15 | Comparer ventes par canal | ✅ | Transactions |
+| 1 | CA par année et canal | OK | Transactions |
+| 2 | Top 10 produits vendus | Partiel | Transactions (sans nom produit) |
+| 3 | Taux remise moyen par catégorie | Non | Manque catégories |
+| 5 | Transactions incohérentes | OK | Transactions |
+| 6 | Nettoyer infos clients | Partiel | Données manquantes |
+| 7 | Standardiser catégories/prix | OK | Fait |
+| 8 | Corriger remises hors plage | OK | Fait |
+| 9 | Revenu réel par transaction | OK | Transactions |
+| 13 | Fiabilité fournisseurs | OK | Fournisseurs |
+| 14 | % livraisons en retard | OK | Transactions |
+| 15 | Comparer ventes par canal | OK | Transactions |
 
-### ⚠️ Réalisables avec enrichissement
+### Realisables avec enrichissement
 
 | # | Objectif | Manque | Action requise |
 |---|----------|--------|----------------|
@@ -149,34 +163,29 @@ DIM_CLIENT ─────── FAIT_VENTES ─────── DIM_PRODUIT
 
 ---
 
-## 📋 COLONNES DANS EXCEL
+## Colonnes Dans Excel
 
 ### Feuille: Transactions
 ```
-✅ Transaction_ID          ✅ Revenu_Total
-✅ Date                    ✅ Quantite
-✅ Client_ID               ✅ Remise_%
-✅ Produit_ID              ✅ Canal_Vente
-✅ Mode_Paiement           ✅ Statut_Livraison
-✅ Date_Livraison
+Transaction_ID, Date, Client_ID, Produit_ID, Quantite,
+Remise_%, Canal_Vente, Mode_Paiement, Statut_Livraison,
+Date_Livraison, Revenu_Total
 ```
 
 ### Feuille: Satisfaction
 ```
-✅ Client_ID               ✅ Score
-✅ Date_Enquete            ✅ Commentaire
+Client_ID, Date_Enquete, Score, Commentaire
 ```
 
 ### Feuille: Fournisseurs
 ```
-✅ Fournisseur_ID          ✅ Evaluation
-✅ Nom_Fournisseur         ✅ Délai_Moyen_Livraison
-✅ Pays                    ✅ Fiabilité_%
+Fournisseur_ID, Nom_Fournisseur, Pays, Evaluation,
+Delai_Moyen_Livraison, Fiabilite_%
 ```
 
 ---
 
-## ❌ DONNÉES MANQUANTES
+## Donnees Manquantes
 
 ### Feuille "Clients" à créer (42 lignes)
 ```
@@ -208,9 +217,9 @@ DIM_CLIENT ─────── FAIT_VENTES ─────── DIM_PRODUIT
 
 ---
 
-## 🛠️ PROCHAINES ÉTAPES
+## Prochaines Etapes
 
-### Phase 1: Enrichissement des données ⚠️ URGENT
+### Phase 1: Enrichissement des donnees (URGENT)
 ```bash
 1. Créer feuille "Clients" dans Excel
    - Exporter les IDs: python3 export_client_ids.py
@@ -244,7 +253,7 @@ source load_facts.sql
 
 ---
 
-## 📊 REQUÊTES SQL PRÊTES À L'EMPLOI
+## REQUÊTES SQL PRÊTES À L'EMPLOI
 
 ### Top 10 produits les plus vendus
 ```sql
@@ -301,7 +310,7 @@ ORDER BY Panier_Moyen DESC;
 
 ---
 
-## 📚 DOCUMENTATION COMPLÈTE
+##  DOCUMENTATION COMPLÈTE
 
 ### Pour le mapping détaillé
 ```bash
@@ -320,7 +329,7 @@ cat RESUME_COMPLET.md
 
 ---
 
-## ⚙️ CONFIGURATION REQUISE
+## ⚙ CONFIGURATION REQUISE
 
 ### Python
 ```bash
@@ -366,7 +375,7 @@ sudo apt install texlive-latex-base texlive-latex-extra
 
 ---
 
-## ✅ CHECKLIST DE VALIDATION
+##  CHECKLIST DE VALIDATION
 
 - [x] Données brutes analysées
 - [x] Script de nettoyage créé et testé
@@ -388,7 +397,7 @@ sudo apt install texlive-latex-base texlive-latex-extra
 
 ---
 
-## 📞 SUPPORT
+##  SUPPORT
 
 Pour toute question sur:
 - **Mapping des données**: Voir `MAPPING_COLONNES_REEL.md`
@@ -398,7 +407,7 @@ Pour toute question sur:
 
 ---
 
-## 📄 LICENCE
+##  LICENCE
 
 Projet académique SmartMarket - Data Analytics  
 © 2024 - Tous droits réservés
