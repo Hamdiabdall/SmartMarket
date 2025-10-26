@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[11pt,a4paper]{article}
 
 % Packages
 \usepackage[utf8]{inputenc}
@@ -11,19 +11,47 @@
 \usepackage{colortbl}
 \usepackage{tikz}
 \usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
 
-\geometry{top=2cm, bottom=2cm, left=2cm, right=2cm}
+\geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
+
+% Configuration en-tête et pied de page
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textbf{Projet SmartMarket}}
+\fancyhead[R]{\textit{Modèle en Étoile}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
 
 \definecolor{headercolor}{RGB}{41, 128, 185}
 \definecolor{lightblue}{RGB}{174, 214, 241}
+\definecolor{darkblue}{RGB}{21, 67, 96}
 
-\title{\textbf{Projet SmartMarket} \\ Modèle en Étoile - Data Warehouse}
-\author{Analyse des Données de Vente}
-\date{\today}
+\title{
+  \vspace{-1cm}
+  {\Huge \textbf{\textcolor{darkblue}{Projet SmartMarket}}} \\
+  \vspace{0.5cm}
+  {\Large Modèle en Étoile - Data Warehouse} \\
+  \vspace{0.3cm}
+  \rule{\textwidth}{1pt}
+}
+\author{\Large Analyse des Données de Vente}
+\date{\large \today}
 
 \begin{document}
 
 \maketitle
+\thispagestyle{empty}
+\vspace{1cm}
+
+\begin{abstract}
+\noindent
+Ce document présente l'architecture complète du Data Warehouse SmartMarket basée sur un modèle en étoile. Il détaille les tables de faits et de dimensions, ainsi que le mapping entre les données sources Excel et le schéma cible du Data Warehouse.
+\end{abstract}
+
+\vspace{1cm}
 \tableofcontents
 \newpage
 
@@ -66,7 +94,8 @@ Le modèle adopte une architecture en étoile avec:
 
 \subsection{FAIT\_VENTES (Table de Faits)}
 
-\begin{longtable}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
+\small
+\begin{longtable}{|>{\columncolor{lightblue}}p{4cm}|p{2.8cm}|p{7cm}|}
 \hline
 \rowcolor{headercolor}
 \textbf{\textcolor{white}{Colonne}} & 
@@ -102,7 +131,8 @@ Indicateur\_Retard & BOOLEAN & 1=retard, 0=OK \\
 
 \begin{table}[ht]
 \centering
-\begin{tabular}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
+\small
+\begin{tabular}{|>{\columncolor{lightblue}}p{4cm}|p{2.8cm}|p{7cm}|}
 \hline
 \rowcolor{headercolor}
 \textbf{\textcolor{white}{Colonne}} & 
@@ -128,7 +158,8 @@ Code\_Postal & VARCHAR(10) & Code postal \\
 
 \begin{table}[ht]
 \centering
-\begin{tabular}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
+\small
+\begin{tabular}{|>{\columncolor{lightblue}}p{4cm}|p{2.8cm}|p{7cm}|}
 \hline
 \rowcolor{headercolor}
 \textbf{\textcolor{white}{Colonne}} & 
@@ -151,7 +182,8 @@ Statut & VARCHAR(20) & Actif/Discontinué \\
 
 \begin{table}[ht]
 \centering
-\begin{tabular}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
+\small
+\begin{tabular}{|>{\columncolor{lightblue}}p{4cm}|p{2.8cm}|p{7cm}|}
 \hline
 \rowcolor{headercolor}
 \textbf{\textcolor{white}{Colonne}} & 
@@ -176,7 +208,8 @@ Est\_Weekend & BOOLEAN & 1=Weekend \\
 
 \begin{table}[ht]
 \centering
-\begin{tabular}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
+\small
+\begin{tabular}{|>{\columncolor{lightblue}}p{4cm}|p{2.8cm}|p{7cm}|}
 \hline
 \rowcolor{headercolor}
 \textbf{\textcolor{white}{Colonne}} & 
@@ -195,7 +228,8 @@ Type\_Canal & VARCHAR(50) & Digital/Physique/Vocal \\
 
 \begin{table}[ht]
 \centering
-\begin{tabular}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
+\small
+\begin{tabular}{|>{\columncolor{lightblue}}p{4cm}|p{2.8cm}|p{7cm}|}
 \hline
 \rowcolor{headercolor}
 \textbf{\textcolor{white}{Colonne}} & 
@@ -217,7 +251,8 @@ Pays & VARCHAR(50) & Pays \\
 
 \begin{table}[ht]
 \centering
-\begin{tabular}{|>{\columncolor{lightblue}}p{4.5cm}|p{3cm}|p{6cm}|}
+\small
+\begin{tabular}{|>{\columncolor{lightblue}}p{4cm}|p{2.8cm}|p{7cm}|}
 \hline
 \rowcolor{headercolor}
 \textbf{\textcolor{white}{Colonne}} & 
@@ -239,7 +274,8 @@ Statut & VARCHAR(20) & Actif/Suspendu \\
 \newpage
 \section{Mapping Excel → Data Warehouse}
 
-\begin{longtable}{|p{1cm}|>{\columncolor{lightblue}}p{5cm}|p{3.5cm}|p{4cm}|}
+\small
+\begin{longtable}{|c|>{\columncolor{lightblue}}p{4.5cm}|p{3.5cm}|p{4.5cm}|}
 \hline
 \rowcolor{headercolor}
 \textbf{\textcolor{white}{N°}} & 

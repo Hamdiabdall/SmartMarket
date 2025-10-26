@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper,landscape]{article}
+\documentclass[11pt,a4paper,landscape]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage[french]{babel}
@@ -8,20 +8,42 @@
 \usepackage{array}
 \usepackage{xcolor}
 \usepackage{colortbl}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
 
-\geometry{top=1.5cm, bottom=1.5cm, left=1.5cm, right=1.5cm}
+\geometry{top=2cm, bottom=2cm, left=1.5cm, right=1.5cm}
+
+% Configuration en-tête et pied de page
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textbf{SmartMarket - Mapping Complet}}
+\fancyhead[R]{\textit{Excel → Data Warehouse}}
+\fancyfoot[C]{Page \thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
 
 \definecolor{headercolor}{RGB}{41, 128, 185}
 \definecolor{lightblue}{RGB}{174, 214, 241}
 \definecolor{warning}{RGB}{231, 76, 60}
+\definecolor{success}{RGB}{39, 174, 96}
+\definecolor{darkblue}{RGB}{21, 67, 96}
 
 \begin{document}
 
-\section*{MAPPING COMPLET: SmartMarket\_raw.xlsx → Data Warehouse}
+\begin{center}
+{\Huge \textbf{\textcolor{darkblue}{MAPPING COMPLET}}} \\
+\vspace{0.3cm}
+{\Large SmartMarket\_raw.xlsx → Data Warehouse} \\
+\vspace{0.2cm}
+\rule{\textwidth}{1pt}
+\end{center}
 
-\subsection*{FEUILLE 1: TRANSACTIONS (100 lignes × 11 colonnes)}
+\vspace{0.5cm}
 
-\begin{longtable}{|c|>{\columncolor{lightblue}}p{3.5cm}|p{2cm}|p{3cm}|p{3.5cm}|p{5cm}|}
+\subsection*{\textcolor{darkblue}{FEUILLE 1: TRANSACTIONS} (100 lignes × 11 colonnes)}
+
+\footnotesize
+\begin{longtable}{|c|>{\columncolor{lightblue}}p{3.2cm}|p{1.8cm}|p{2.8cm}|p{3.2cm}|p{5.5cm}|}
 \hline
 \rowcolor{headercolor}
 \textbf{\textcolor{white}{N°}} & 
@@ -80,9 +102,10 @@
 \caption{Mapping Transactions}
 \end{longtable}
 
-\subsection*{FEUILLE 2: SATISFACTION (60 lignes × 4 colonnes)}
+\subsection*{\textcolor{darkblue}{FEUILLE 2: SATISFACTION} (60 lignes × 4 colonnes)}
 
-\begin{longtable}{|c|>{\columncolor{lightblue}}p{3.5cm}|p{2cm}|p{3cm}|p{3.5cm}|p{5cm}|}
+\footnotesize
+\begin{longtable}{|c|>{\columncolor{lightblue}}p{3.2cm}|p{1.8cm}|p{2.8cm}|p{3.2cm}|p{5.5cm}|}
 \hline
 \rowcolor{headercolor}
 \textbf{\textcolor{white}{N°}} & 
@@ -108,9 +131,10 @@
 \caption{Mapping Satisfaction}
 \end{longtable}
 
-\subsection*{FEUILLE 3: FOURNISSEURS (10 lignes × 6 colonnes)}
+\subsection*{\textcolor{darkblue}{FEUILLE 3: FOURNISSEURS} (10 lignes × 6 colonnes)}
 
-\begin{longtable}{|c|>{\columncolor{lightblue}}p{3.5cm}|p{2cm}|p{3.5cm}|p{3.5cm}|p{4.5cm}|}
+\footnotesize
+\begin{longtable}{|c|>{\columncolor{lightblue}}p{3.2cm}|p{1.8cm}|p{3.2cm}|p{3.2cm}|p{5cm}|}
 \hline
 \rowcolor{headercolor}
 \textbf{\textcolor{white}{N°}} & 
@@ -143,9 +167,10 @@
 \end{longtable}
 
 \newpage
-\section*{CHAMPS CALCULÉS}
+\section*{\textcolor{darkblue}{CHAMPS CALCULÉS}}
 
-\begin{longtable}{|>{\columncolor{lightblue}}p{5cm}|p{8cm}|p{6cm}|}
+\footnotesize
+\begin{longtable}{|>{\columncolor{lightblue}}p{4.5cm}|p{8.5cm}|p{5.5cm}|}
 \hline
 \rowcolor{headercolor}
 \textbf{\textcolor{white}{Champ Calculé}} & 
@@ -174,9 +199,10 @@ Note\_Fiabilite (normalisée) & \texttt{((Evaluation - 3) / 7) × 4 + 1} & Fourn
 \caption{Champs calculés lors de l'ETL}
 \end{longtable}
 
-\section*{COLONNES MANQUANTES (à obtenir)}
+\section*{\textcolor{darkblue}{COLONNES MANQUANTES} (à obtenir)}
 
-\begin{longtable}{|>{\columncolor{warning!30}}p{5cm}|p{6cm}|p{7cm}|}
+\footnotesize
+\begin{longtable}{|>{\columncolor{warning!30}}p{4.5cm}|p{6cm}|p{7.5cm}|}
 \hline
 \rowcolor{warning}
 \textbf{\textcolor{white}{Dimension}} & 
@@ -196,9 +222,10 @@ DIM\_REGION & Département, Région\_Administrative & Enrichir depuis Code\_Post
 \caption{Données manquantes}
 \end{longtable}
 
-\section*{PROBLÈMES QUALITÉ DÉTECTÉS}
+\section*{\textcolor{darkblue}{PROBLÈMES QUALITÉ DÉTECTÉS}}
 
-\begin{longtable}{|c|>{\columncolor{lightblue}}p{4cm}|p{5cm}|p{8cm}|}
+\footnotesize
+\begin{longtable}{|c|>{\columncolor{lightblue}}p{3.5cm}|p{5cm}|p{8.5cm}|}
 \hline
 \rowcolor{headercolor}
 \textbf{\textcolor{white}{Priorité}} & 
